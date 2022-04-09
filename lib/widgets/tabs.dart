@@ -55,7 +55,7 @@ Widget tabs(
         ),
       ),
       SizedBox(
-        height: MediaQuery.of(context).size.height * 6.1,
+        height: 4750,
         child: TabBarView(
           controller: _tabController,
           children: [
