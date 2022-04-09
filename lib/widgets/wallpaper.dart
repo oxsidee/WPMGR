@@ -8,7 +8,7 @@ Widget wallpapersList(
   return GridView.count(
     crossAxisCount: 3,
     childAspectRatio: 0.666667,
-    physics: const ClampingScrollPhysics(),
+    physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     children: [
       ...wallpaperImageList.map((image) {
@@ -25,7 +25,7 @@ Widget wallpapersList(
                     },
                 child: Hero(
                     tag: image.source.portraitURL,
-                    child: Image.network(image.source.portraitURL))));
+                    child: Image.network(image.source.smallURL, fit: BoxFit.cover,))));
       })
     ],
   );

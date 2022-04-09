@@ -17,6 +17,6 @@ class Src {
   Src({required this.portraitURL, required this.smallURL});
 
   factory Src.fromMap(Map<String, dynamic> json) {
-    return Src(portraitURL: json['portrait'], smallURL: json['small']);
+    return Src(portraitURL: json['portrait'], smallURL: json['medium']);
   }
 }
