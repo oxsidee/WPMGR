@@ -1,11 +1,9 @@
+// @dart=2.9
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:wallpaper_manager/wallpaper_manager.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:wpmgr/classes/wallpaperImage.dart';
-import 'package:wpmgr/widgets/wallpaper.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:wpmgr/widgets/tabs.dart';
 
 String pexelAPIKey = "563492ad6f91700001000001f19e0fde9c284d91a33407f215c46a60";
 
@@ -14,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({key}) : super(key: key);
 
 
   // This widget is the root of your application.
@@ -46,61 +44,74 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({key, this.title}) : super(key: key);
   final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> wallpapers = [];
-  List<WallpaperImage> wallpaperImageList = [];
-  getMainWPPics() async{
-    var response = await http.get("https://api.pexels.com/v1/curated?per_page=30&page=1",
-    headers: {
-      "Authorization": pexelAPIKey
-    }
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
+  List<WallpaperImage> wallpaperImageListPopular = [];
+  List<WallpaperImage> wallpaperImageListArt = [];
+  List<WallpaperImage> wallpaperImageListCars = [];
+  List<WallpaperImage> wallpaperImageListNature = [];
+  List<WallpaperImage> wallpaperImageListGirls = [];
+  List<WallpaperImage> wallpaperImageListCities = [];
+
+
+  getWPPics(String URL, int category) async{
+    var response = await http.get(URL,
+        headers: {
+          "Authorization": pexelAPIKey
+        }
     );
     Map<String, dynamic> wpImages = jsonDecode(response.body);
 
     wpImages['photos'].forEach((photo){
-    WallpaperImage wallpaperImage = WallpaperImage.fromMap(photo);
-    wallpaperImageList.add(wallpaperImage);
+      WallpaperImage wallpaperImage = WallpaperImage.fromMap(photo);
+
+      switch(category){
+        case 1: wallpaperImageListPopular.add(wallpaperImage);
+        break;
+        case 2: wallpaperImageListArt.add(wallpaperImage);
+        break;
+        case 3: wallpaperImageListCars.add(wallpaperImage);
+        break;
+        case 4: wallpaperImageListNature.add(wallpaperImage);
+        break;
+        case 5: wallpaperImageListGirls.add(wallpaperImage);
+        break;
+        case 6: wallpaperImageListCities.add(wallpaperImage);
+        break;
+      }
 
     });
-
-    setState(() {});
-
+  setState(() {});
   }
 
   @override
-  void initState() {
+  void initState(){
+    int countPerPage = 72;
     // TODO: implement initState
     super.initState();
-    getMainWPPics();
+    getWPPics('https://api.pexels.com/v1/curated?per_page=$countPerPage&page=1', 1);
+    getWPPics('https://api.pexels.com/v1/search?query=art&per_page=$countPerPage&page=1', 2);
+    getWPPics('https://api.pexels.com/v1/search?query=cars&per_page=$countPerPage&page=1', 3);
+    getWPPics('https://api.pexels.com/v1/search?query=nature&per_page=$countPerPage&page=1', 4);
+    getWPPics('https://api.pexels.com/v1/search?query=girls&per_page=$countPerPage&page=1', 5);
+    getWPPics('https://api.pexels.com/v1/search?query=cities&per_page=$countPerPage&page=1', 6);
   }
 
   @override
   Widget build(BuildContext context) {
+    TabController _tabController = TabController(length: 6, vsync: this);
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            children:
-            <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(25, 130, 0, 50),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text('Popular',style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 60
-                  ),textAlign: TextAlign.left,),
-                ),
-              ),
-              walpaperslist(wallpaperImageList: wallpaperImageList, context: context)],
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 130, 0, 50),
+            child: tabs(_tabController, wallpaperImageListPopular, wallpaperImageListArt,wallpaperImageListCars,wallpaperImageListNature,wallpaperImageListGirls,wallpaperImageListCities, context),
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
