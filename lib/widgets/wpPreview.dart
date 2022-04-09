@@ -4,15 +4,17 @@ import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class wpPreview extends StatefulWidget {
+class WpPreview extends StatefulWidget {
   final String src;
   final String avg_color;
-  wpPreview({required this.src, required this.avg_color});
+
+  WpPreview({required this.src, required this.avg_color});
+
   @override
-  _wpPreviewState createState() => _wpPreviewState();
+  _WpPreviewState createState() => _WpPreviewState();
 }
 
-class _wpPreviewState extends State<wpPreview> {
+class _WpPreviewState extends State<WpPreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,33 +22,66 @@ class _wpPreviewState extends State<wpPreview> {
         tag: widget.src,
         child: Stack(
           children: [
-            Image.network(widget.src, fit: BoxFit.cover,),
-            Container(
+            Image.network(
+              widget.src,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.only(bottom: 30),
+                padding: const EdgeInsets.only(bottom: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      style: ButtonStyle(
-
-                          backgroundColor: MaterialStateProperty.all(Color(int.parse('FF'+widget.avg_color.replaceAll('#', ''), radix: 16)))),
-                        onPressed: () => { picSetter.setPicHome(widget.src, WallpaperManager.HOME_SCREEN)}
-                        , child: const Text('Set on Home screen', style: TextStyle(fontSize: 20),)),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Color(
+                                int.parse(
+                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    radix: 16)))),
+                        onPressed: () => {
+                              PicSetter.setPicHome(
+                                  widget.src, WallpaperManager.HOME_SCREEN)
+                            },
+                        child: const Text(
+                          'Set on Home screen',
+                          style: TextStyle(fontSize: 20),
+                        )),
                     ElevatedButton(
                         style: ButtonStyle(
-
-                            backgroundColor: MaterialStateProperty.all(Color(int.parse('FF'+widget.avg_color.replaceAll('#', ''), radix: 16)))),
-                        onPressed: () => { picSetter.setPicHome(widget.src, WallpaperManager.LOCK_SCREEN)}
-                        , child: const Text('Set on Lock screen', style: TextStyle(fontSize: 20),)),
+                            backgroundColor: MaterialStateProperty.all(Color(
+                                int.parse(
+                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    radix: 16)))),
+                        onPressed: () => {
+                              PicSetter.setPicHome(
+                                  widget.src, WallpaperManager.LOCK_SCREEN)
+                            },
+                        child: const Text(
+                          'Set on Lock screen',
+                          style: TextStyle(fontSize: 20),
+                        )),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(int.parse('FF'+widget.avg_color.replaceAll('#', ''), radix: 16)))),
-                        onPressed: () => { picSetter.setPicHome(widget.src, WallpaperManager.BOTH_SCREENS)}
-                        , child: const Text('Set on both screen', style: TextStyle(fontSize: 20),)),
-                    OutlinedButton(onPressed: () => {Navigator.pop(context)}, child: Text('Close', style: TextStyle(color: Colors.white),))
+                            backgroundColor: MaterialStateProperty.all(Color(
+                                int.parse(
+                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    radix: 16)))),
+                        onPressed: () => {
+                              PicSetter.setPicHome(
+                                  widget.src, WallpaperManager.BOTH_SCREENS)
+                            },
+                        child: const Text(
+                          'Set on both screen',
+                          style: TextStyle(fontSize: 20),
+                        )),
+                    OutlinedButton(
+                        onPressed: () => {Navigator.pop(context)},
+                        child: const Text(
+                          'Close',
+                          style: TextStyle(color: Colors.white),
+                        ))
                   ],
                 ),
               ),
@@ -57,11 +92,13 @@ class _wpPreviewState extends State<wpPreview> {
     );
   }
 }
-class picSetter extends _wpPreviewState {
+
+class PicSetter extends _WpPreviewState {
   static setPicHome(url, location) async {
     var file = await DefaultCacheManager().getSingleFile(url);
-    final String success = await WallpaperManager.setWallpaperFromFile(file.path, location);
-    if(success == 'Wallpaper set'){
+    final String success =
+        await WallpaperManager.setWallpaperFromFile(file.path, location);
+    if (success == 'Wallpaper set') {
       Fluttertoast.showToast(
           msg: "Wallpaper set",
           toastLength: Toast.LENGTH_SHORT,
@@ -69,19 +106,16 @@ class picSetter extends _wpPreviewState {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
           textColor: Colors.black,
-          fontSize: 16.0
-      );
-    } else
-      {
-        Fluttertoast.showToast(
-            msg: "Somethings wrong. Try later...",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
-            textColor: Colors.black,
-            fontSize: 16.0
-        );
-      }
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Somethings wrong. Try later...",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    }
   }
-  }
+}

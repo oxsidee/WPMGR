@@ -14,22 +14,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({key}) : super(key: key);
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Map<int, Color> color =
-    {
-      50:Color.fromRGBO(255,255,255, .1),
-      100:Color.fromRGBO(255,255,255, .2),
-      200:Color.fromRGBO(255,255,255, .3),
-      300:Color.fromRGBO(255,255,255, .4),
-      400:Color.fromRGBO(255,255,255, .5),
-      500:Color.fromRGBO(255,255,255, .6),
-      600:Color.fromRGBO(255,255,255, .7),
-      700:Color.fromRGBO(255,255,255, .8),
-      800:Color.fromRGBO(255,255,255, .9),
-      900:Color.fromRGBO(255,255,255, 1),
+    Map<int, Color> color = {
+      50: const Color.fromRGBO(255, 255, 255, .1),
+      100: const Color.fromRGBO(255, 255, 255, .2),
+      200: const Color.fromRGBO(255, 255, 255, .3),
+      300: const Color.fromRGBO(255, 255, 255, .4),
+      400: const Color.fromRGBO(255, 255, 255, .5),
+      500: const Color.fromRGBO(255, 255, 255, .6),
+      600: const Color.fromRGBO(255, 255, 255, .7),
+      700: const Color.fromRGBO(255, 255, 255, 0.8),
+      800: const Color.fromRGBO(255, 255, 255, .9),
+      900: const Color.fromRGBO(255, 255, 255, 1),
     };
     return MaterialApp(
       title: 'WallPaper Manager',
@@ -51,7 +49,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List<WallpaperImage> wallpaperImageListPopular = [];
   List<WallpaperImage> wallpaperImageListArt = [];
   List<WallpaperImage> wallpaperImageListCars = [];
@@ -59,48 +57,59 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   List<WallpaperImage> wallpaperImageListGirls = [];
   List<WallpaperImage> wallpaperImageListCities = [];
 
-
-  getWPPics(String URL, int category) async{
-    var response = await http.get(URL,
-        headers: {
-          "Authorization": pexelAPIKey
-        }
-    );
+  getWPPics(String url, int category) async {
+    var response = await http.get(url, headers: {"Authorization": pexelAPIKey});
     Map<String, dynamic> wpImages = jsonDecode(response.body);
 
-    wpImages['photos'].forEach((photo){
+    wpImages['photos'].forEach((photo) {
       WallpaperImage wallpaperImage = WallpaperImage.fromMap(photo);
 
-      switch(category){
-        case 1: wallpaperImageListPopular.add(wallpaperImage);
-        break;
-        case 2: wallpaperImageListArt.add(wallpaperImage);
-        break;
-        case 3: wallpaperImageListCars.add(wallpaperImage);
-        break;
-        case 4: wallpaperImageListNature.add(wallpaperImage);
-        break;
-        case 5: wallpaperImageListGirls.add(wallpaperImage);
-        break;
-        case 6: wallpaperImageListCities.add(wallpaperImage);
-        break;
+      switch (category) {
+        case 1:
+          wallpaperImageListPopular.add(wallpaperImage);
+          break;
+        case 2:
+          wallpaperImageListArt.add(wallpaperImage);
+          break;
+        case 3:
+          wallpaperImageListCars.add(wallpaperImage);
+          break;
+        case 4:
+          wallpaperImageListNature.add(wallpaperImage);
+          break;
+        case 5:
+          wallpaperImageListGirls.add(wallpaperImage);
+          break;
+        case 6:
+          wallpaperImageListCities.add(wallpaperImage);
+          break;
       }
-
     });
-  setState(() {});
+    setState(() {});
   }
 
   @override
-  void initState(){
+  void initState() {
     int countPerPage = 72;
     // TODO: implement initState
     super.initState();
-    getWPPics('https://api.pexels.com/v1/curated?per_page=$countPerPage&page=1', 1);
-    getWPPics('https://api.pexels.com/v1/search?query=art&per_page=$countPerPage&page=1', 2);
-    getWPPics('https://api.pexels.com/v1/search?query=cars&per_page=$countPerPage&page=1', 3);
-    getWPPics('https://api.pexels.com/v1/search?query=nature&per_page=$countPerPage&page=1', 4);
-    getWPPics('https://api.pexels.com/v1/search?query=girls&per_page=$countPerPage&page=1', 5);
-    getWPPics('https://api.pexels.com/v1/search?query=cities&per_page=$countPerPage&page=1', 6);
+    getWPPics(
+        'https://api.pexels.com/v1/curated?per_page=$countPerPage&page=1', 1);
+    getWPPics(
+        'https://api.pexels.com/v1/search?query=art&per_page=$countPerPage&page=1',
+        2);
+    getWPPics(
+        'https://api.pexels.com/v1/search?query=cars&per_page=$countPerPage&page=1',
+        3);
+    getWPPics(
+        'https://api.pexels.com/v1/search?query=nature&per_page=$countPerPage&page=1',
+        4);
+    getWPPics(
+        'https://api.pexels.com/v1/search?query=girls&per_page=$countPerPage&page=1',
+        5);
+    getWPPics(
+        'https://api.pexels.com/v1/search?query=cities&per_page=$countPerPage&page=1',
+        6);
   }
 
   @override
@@ -110,13 +119,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.fromLTRB(0, 130, 0, 50),
-            child: tabs(_tabController, wallpaperImageListPopular, wallpaperImageListArt,wallpaperImageListCars,wallpaperImageListNature,wallpaperImageListGirls,wallpaperImageListCities, context),
+            margin: const EdgeInsets.fromLTRB(0, 130, 0, 50),
+            child: tabs(
+                _tabController,
+                wallpaperImageListPopular,
+                wallpaperImageListArt,
+                wallpaperImageListCars,
+                wallpaperImageListNature,
+                wallpaperImageListGirls,
+                wallpaperImageListCities,
+                context),
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
-
-
