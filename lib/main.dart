@@ -37,9 +37,8 @@ class MyApp extends StatelessWidget {
       title: 'WallPaper Manager',
       theme: ThemeData(
         //Color(0xFF232323)
-        primarySwatch: MaterialColor(0xFF232323, color),
+        primarySwatch: MaterialColor(0xFF151515, color),
         scaffoldBackgroundColor: MaterialColor(0xFF101010, color),
-
       ),
       home: const MyHomePage(title: 'WallPaper Manager'),
     );
@@ -85,14 +84,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[walpaperslist(wallpaperImageList: wallpaperImageList, context: context)],
+            children:
+            <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(25, 130, 0, 50),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text('Popular',style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 60
+                  ),textAlign: TextAlign.left,),
+                ),
+              ),
+              walpaperslist(wallpaperImageList: wallpaperImageList, context: context)],
           ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
