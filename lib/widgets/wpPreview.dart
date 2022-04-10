@@ -70,7 +70,9 @@ class _WpPreviewState extends State<WpPreview> {
                                     radix: 16)))),
                         onPressed: () => {
                               PicSetter.setPicHome(
-                                  widget.src, WallpaperManager.BOTH_SCREENS)
+                                  widget.src, WallpaperManager.LOCK_SCREEN),
+                              PicSetter.setPicHome(
+                                  widget.src, WallpaperManager.HOME_SCREEN)
                             },
                         child: const Text(
                           'Set on both screen',
