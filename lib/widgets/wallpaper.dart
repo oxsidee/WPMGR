@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wpmgr/classes/wallpaperImage.dart';
-import 'package:wpmgr/widgets/wpPreview.dart';
+import 'package:wpmgr/classes/wallpaper_image.dart';
+import 'package:wpmgr/widgets/wp_preview.dart';
 
 Widget wallpapersList(
     {required List<WallpaperImage> wallpaperImageList, context}) {
@@ -20,7 +20,7 @@ Widget wallpapersList(
                           MaterialPageRoute(
                               builder: (context) => WpPreview(
                                     src: image.source.portraitURL,
-                                    avg_color: image.avg_color,
+                                    avgcolor: image.avgcolor,
                                   )))
                     },
                 child: Hero(

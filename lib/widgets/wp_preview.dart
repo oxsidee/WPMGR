@@ -6,9 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class WpPreview extends StatefulWidget {
   final String src;
-  final String avg_color;
+  final String avgcolor;
 
-  WpPreview({required this.src, required this.avg_color});
+  const WpPreview({Key? key, required this.src, required this.avgcolor}) : super(key: key);
 
   @override
   _WpPreviewState createState() => _WpPreviewState();
@@ -38,7 +38,7 @@ class _WpPreviewState extends State<WpPreview> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Color(
                                 int.parse(
-                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    'FF' + widget.avgcolor.replaceAll('#', ''),
                                     radix: 16)))),
                         onPressed: () => {
                               PicSetter.setPicHome(
@@ -52,7 +52,7 @@ class _WpPreviewState extends State<WpPreview> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Color(
                                 int.parse(
-                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    'FF' + widget.avgcolor.replaceAll('#', ''),
                                     radix: 16)))),
                         onPressed: () => {
                               PicSetter.setPicHome(
@@ -66,7 +66,7 @@ class _WpPreviewState extends State<WpPreview> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Color(
                                 int.parse(
-                                    'FF' + widget.avg_color.replaceAll('#', ''),
+                                    'FF' + widget.avgcolor.replaceAll('#', ''),
                                     radix: 16)))),
                         onPressed: () => {
                               PicSetter.setPicHome(

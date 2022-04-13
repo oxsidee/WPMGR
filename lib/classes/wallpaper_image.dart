@@ -1,12 +1,12 @@
 class WallpaperImage {
   Src source;
-  String avg_color;
+  String avgcolor;
 
-  WallpaperImage({required this.source, required this.avg_color});
+  WallpaperImage({required this.source, required this.avgcolor});
 
   factory WallpaperImage.fromMap(Map<String, dynamic> json) {
     return WallpaperImage(
-        source: Src.fromMap(json['src']), avg_color: json['avg_color']);
+        source: Src.fromMap(json['src']), avgcolor: json['avg_color']);
   }
 }
 
