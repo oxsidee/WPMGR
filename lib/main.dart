@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'WallPaper Manager',
       theme: ThemeData(
@@ -42,26 +41,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   PicsBloc _picsBloc;
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     TabController _tabController = TabController(length: 6, vsync: this);
-    _picsBloc = PicsBloc(context: context, tabController: _tabController);
-    _picsBloc.add(PicsUpdate());
+    _picsBloc = PicsBloc(context: context, tabController: _tabController, scrollController: _scrollController);
+    _picsBloc.add(PicsFetchAll());
+    _picsBloc.add(PicsInit());
+    _scrollController.addListener(() {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
+        _picsBloc.add(PicsAdd());
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PicsBloc>(
       create: (context) => _picsBloc,
-      child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(0, 130, 0, 50),
-              child: const Tabs(),
-            ),
-          ),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
+      child: const Scaffold(
+        body: Tabs(),
+            // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
   }

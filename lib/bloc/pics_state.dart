@@ -11,6 +11,8 @@ class PicsLoadedState extends PicsState {
 
   TabController tabController;
 
+  ScrollController scrollController;
+
   List<WallpaperImage> wallpaperImageListPopular;
 
   List<WallpaperImage> wallpaperImageListCars;
@@ -23,7 +25,8 @@ class PicsLoadedState extends PicsState {
 
   List<WallpaperImage> wallpaperImageListCities;
 
-  PicsLoadedState(this.tabController, this.wallpaperImageListPopular, this.wallpaperImageListArt, this.wallpaperImageListCars, this.wallpaperImageListNature, this.wallpaperImageListGirls, this.wallpaperImageListCities, BuildContext context
+
+  PicsLoadedState(this.scrollController, this.tabController, this.wallpaperImageListPopular, this.wallpaperImageListArt, this.wallpaperImageListCars, this.wallpaperImageListNature, this.wallpaperImageListGirls, this.wallpaperImageListCities, BuildContext context
     );
 
 }
